@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<title>Exercice Auth MVC</title>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<ul>
+					<li>
+						<a href="index.php">Accueil</a>
+					</li>
+					<li>
+						<a href="index.php?route=inscription">S'inscrire</a>
+					</li>
+					<li>
+						<a href="index.php?route=connexion">se connecter</a>
+					</li>
+				</ul>
+			</nav>
+		</header>
+		<?php
+		require "templates/$route.phtml";
+		?>
+	</body>
+</html>
