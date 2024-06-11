@@ -5,8 +5,11 @@ class AbstractManager
     private array $users = [];
     private PDO $db;
 
-    public function __construct()
-    {
+    public function __construct(){}
+    
+        
+        public function Connexion() 
+        {
         $host = "db.3wa.io";
         $port = "3306";
         $dbname = "laurebonnevalle_bre01_blog_poo";
@@ -19,14 +22,16 @@ class AbstractManager
             $connexionString,
             $user,
             $password
-            
+           
         );
-        var_dump($db);
-    }
+        var_dump($this->db); 
+        }
+    
     
     
     
 };
+
 
 ?>
 

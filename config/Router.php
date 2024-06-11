@@ -1,16 +1,28 @@
 <?php 
 
+
 class Router {
     public function handleRequest(array $get): void {
         $pageController = new PageController();
+        $authController = new AuthController();
 
-        if (isset($get["route"]) && $get["route"] === "EspacePerso") 
+ 
+        if (isset($get["route"]) && $get["route"] === "connexion") 
         {
-            $pageController->connexion();
-        } 
+            $authController->LoginForm();
+        }
+        elseif (isset($get["route"]) && $get["route"] === "check-connexion")
+        {
+            $authController->Login();
+        }
+        elseif (isset($get["route"]) && $get["route"] === "EspacePerso")
+        {
+            $authController ->
+        }
+        
         elseif (isset($get["route"]) && $get["route"] === "inscription") 
         {
-            $pageController->register();
+            $authController->register();
         } 
         elseif (!isset($get["route"])) 
         {

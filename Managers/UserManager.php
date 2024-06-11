@@ -1,76 +1,34 @@
 <?php
 
+
+
 require 'AbstractManager.php';
 
 class UserManager extends AbstractManager {
     
-    
-    
-    public function getUsers(): array
-    {
-        return $this->users;
-    }
+    public function getUserByUsername(string $username): ?User {
+        
+        $query = $db->prepare("SELECT * FROM users WHERE username = :username");
 
-    public function setUsers(array $users): void
-    {
-        $this->users = $users;
-    }
-
-    public function loadUsers() : void
-    {
-        $query = $this->db->prepare('SELECT * FROM users');
-        $query->execute();
-        $users = $query->fetchAll(PDO::FETCH_ASSOC);
-        $userList = [];
-
-        foreach($users as $user)
-        {
-            $item = new User($user["username"], $user["email"], $user["password"], $user["role"]);
-            $item->setId($user["id"]);
-
-            $userList[] = $item;
-        }
-
-        $this->users = $userList;
-    }
-
-    public function saveUser(User $user) : void
-    {
-        $currentDateTime = date('Y-m-d H:i:s');
-
-        $query = $this->db->prepare('INSERT INTO users (id, username, email, password, role, created_at) VALUES (NULL, :username, :email, :password, :role, :created_at)');
         $parameters = [
-            "username" => $user->getUsername(),
-            "password" => $user->getPassword(),
-            "email" => $user->getEmail(),
-            "role" => $user->getRole(),
-            "created_at" => $currentDateTime,
+            "username" => $username,
         ];
+
+        $query->execute($parameters);
+        $userData = $query->fetch(PDO::FETCH_ASSOC);
+        if ($userData) {
+            $user = new User($userData["username"], $userData["email"], $userData["password"], $userData["role"]);
+            return $user;
+        } else {
+            return null;
+        }
+    }
+
         
 
-        $query->execute($parameters);
-
-        $user->setId($this->db->lastInsertId());
-
-        $this->users[] = $user;
-    }
-
-    public function deleteUser(User $user) : void
-    {
-        $query = $this->db->prepare('DELETE FROM users WHERE id=:id');
-        $parameters = [
-            "id" => $user->getId(),
-        ];
-        $query->execute($parameters);
-
-        foreach($this->users as $key => $item)
-        {
-            if($item->getId() === $user->getId())
-            {
-                unset($this->users[$key]);
-            }
-        }
-    }
 }
 
+    
+    
+   
 ?>

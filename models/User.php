@@ -1,7 +1,5 @@
 <?php
 
-<?php
-
 class User {
     private ? int $id = null;
 
